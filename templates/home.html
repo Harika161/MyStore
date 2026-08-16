@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+
+{% block title %}Home | MyStore{% endblock %}
+
+{% block content %}
+
+<!-- Hero Section -->
+<section class="hero">
+    <div class="container">
+        <h1>Welcome to MyStore</h1>
+        <p>Discover amazing products at great prices.</p>
+        <a href="#products" class="btn">Shop Now</a>
+    </div>
+</section>
+
+
+<!-- Categories Section -->
+<section class="categories">
+    <div class="container">
+
+        <h2>Shop by Category</h2>
+
+        <div class="category-grid">
+
+    {% for category in categories %}
+
+    <a href="{% url 'category_products' category.id %}" class="category-card">
+
+        <h3>{{ category.name }}</h3>
+
+        <p>
+            {% if category.description %}
+                {{ category.description }}
+            {% else %}
+                Explore {{ category.name }}
+            {% endif %}
+        </p>
+
+    </a>
+
+    {% endfor %}
+
+</div>
+
+    </div>
+</section>
+
+
+
+<!-- Products Section -->
+<section class="products" id="products">
+
+    <div class="container">
+
+        <h2>Featured Products</h2>
+<div class="search-container">
+
+    <form method="GET" action="{% url 'home' %}" class="search-form">
+
+        <div class="search-input-wrapper">
+
+            <input
+                type="text"
+                name="search"
+                placeholder="Search for products..."
+                value="{{ search_query|default:'' }}"
+            >
+
+            <span class="search-icon">🔍</span>
+
+        </div>
+
+        <button type="submit" class="search-button">
+            Search
+        </button>
+
+    </form>
+
+</div>
+
+        <div class="product-grid">
+
+            {% for product in products %}
+
+
+
+            <div class="product-card">
+
+                <a href="{% url 'product_detail' product.id %}" class="product-link">
+
+    {% if product.image %}
+        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+    {% else %}
+        <div class="product-placeholder">
+            No Image
+        </div>
+    {% endif %}
+
+</a>
+                <div class="product-info">
+
+                   <h3>
+    <a href="{% url 'product_detail' product.id %}" class="product-name-link">
+        {{ product.name }}
+    </a>
+</h3>
+
+                    <p>{{ product.description }}</p>
+                    {% if product.stock > 0 %}
+    <p class="stock-available">
+        In Stock: {{ product.stock }}
+    </p>
+{% else %}
+    <p class="stock-out">
+        Out of Stock
+    </p>
+{% endif %}
+
+                    <div class="product-bottom">
+
+                        <span class="price">
+                            ₹{{ product.price }}
+                        </span>
+
+                      {% if product.cart_quantity < product.stock %}
+    <a href="{% url 'add_to_cart' product.id %}" class="cart-btn">
+        Add to Cart
+    </a>
+{% else %}
+    <span class="cart-btn out-of-stock">
+        Out of Stock
+    </span>
+{% endif %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% empty %}
+
+            <p>No products available.</p>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

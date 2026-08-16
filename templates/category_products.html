@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ category.name }} | MyStore{% endblock %}
+
+{% block content %}
+
+<section class="products">
+
+    <div class="container">
+
+        <h2>{{ category.name }}</h2>
+
+        {% if category.description %}
+            <p>{{ category.description }}</p>
+        {% endif %}
+
+        <div class="product-grid">
+
+            {% for product in products %}
+
+            <div class="product-card">
+
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                {% else %}
+                    <div class="product-placeholder">
+                        No Image
+                    </div>
+                {% endif %}
+
+                <div class="product-info">
+
+                    <h3>{{ product.name }}</h3>
+
+                    <p>{{ product.description }}</p>
+
+                    <div class="product-bottom">
+
+                        <span class="price">
+                            ₹{{ product.price }}
+                        </span>
+
+                        <a href="{% url 'add_to_cart' product.id %}" class="cart-btn">
+                            Add to Cart
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% empty %}
+
+            <p>No products available in this category.</p>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

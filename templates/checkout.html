@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+
+{% block title %}Checkout | MyStore{% endblock %}
+
+{% block content %}
+
+<section class="checkout-section">
+
+<div class="container">
+
+    <h1>Checkout</h1>
+
+    {% if cart_items %}
+
+    <form method="POST" class="checkout-container">
+        {% csrf_token %}
+
+        <div class="checkout-items">
+
+            <h2>Order Summary</h2>
+
+            {% for item in cart_items %}
+
+            <div class="checkout-item">
+
+                <div class="checkout-image">
+                    {% if item.product.image %}
+                        <img src="{{ item.product.image.url }}"
+                             alt="{{ item.product.name }}">
+                    {% endif %}
+                </div>
+
+                <div class="checkout-details">
+
+                    <h3>{{ item.product.name }}</h3>
+
+                    <p>Quantity: {{ item.quantity }}</p>
+
+                    <p class="checkout-price">
+                        ₹{{ item.subtotal }}
+                    </p>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+        <div class="checkout-total">
+
+            <h2>Customer Details</h2>
+
+            <div class="checkout-form">
+
+                <div class="form-group full-width">
+                    <label for="customer_name">Full Name</label>
+
+                    <input
+                        type="text"
+                        id="customer_name"
+                        name="customer_name"
+                        value="{{ request.user.username }}"
+                        required
+                    >
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="email">Email</label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        value="{{ request.user.email }}"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+
+                    <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        maxlength="15"
+                        placeholder="Enter your phone number"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="address">Delivery Address</label>
+
+                    <textarea
+                        id="address"
+                        name="address"
+                        rows="5"
+                        placeholder="Enter your delivery address"
+                        required
+                    ></textarea>
+                </div>
+
+            </div>
+
+            <h2 class="order-total-heading">Order Total</h2>
+
+            <div class="total-row">
+                <span>Total</span>
+                <strong>₹{{ total }}</strong>
+            </div>
+
+            <button type="submit" class="place-order-btn">
+                Place Order
+            </button>
+
+        </div>
+
+    </form>
+
+    {% else %}
+
+    <div class="empty-checkout">
+
+        <h2>Your cart is empty</h2>
+
+        <p>Add some products before proceeding to checkout.</p>
+
+        <a href="{% url 'home' %}" class="btn">
+            Continue Shopping
+        </a>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+</section>
+
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ product.name }} | MyStore{% endblock %}
+
+{% block content %}
+
+<section class="product-detail-section">
+
+```
+<div class="container">
+
+    <div class="product-detail">
+
+        <div class="product-detail-image">
+
+            {% if product.image %}
+                <img src="{{ product.image.url }}"
+                     alt="{{ product.name }}">
+            {% endif %}
+
+        </div>
+
+        <div class="product-detail-info">
+
+            <h1>{{ product.name }}</h1>
+
+            <p class="product-detail-price">
+                ₹{{ product.price }}
+            </p>
+
+            <p class="product-detail-description">
+                {{ product.description }}
+            </p>
+
+            {% if product.stock > 0 %}
+
+                <p class="product-stock">
+                    In Stock: {{ product.stock }}
+                </p>
+
+                <a href="{% url 'add_to_cart' product.id %}"
+                   class="btn">
+                    Add to Cart
+                </a>
+
+            {% else %}
+
+                <p class="out-of-stock">
+                    Out of Stock
+                </p>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+```
+
+</section>
+
+{% endblock %}
