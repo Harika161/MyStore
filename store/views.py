@@ -104,6 +104,22 @@ def increase_quantity(request, product_id):
 
     return redirect('cart')
 
+def decrease_quantity(request, product_id):
+    cart = request.session.get('cart', {})
+
+    product_id = str(product_id)
+
+    if product_id in cart:
+        cart[product_id] -= 1
+
+        if cart[product_id] <= 0:
+            del cart[product_id]
+
+    request.session['cart'] = cart
+    request.session.modified = True
+
+    return redirect('cart')
+
 def checkout(request):
     cart = request.session.get('cart', {})
 
