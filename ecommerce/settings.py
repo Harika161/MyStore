@@ -150,7 +150,6 @@ MAILERS = {
     },
 }
 
-import os
 
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': os.environ.get('pks4ucxa'),
