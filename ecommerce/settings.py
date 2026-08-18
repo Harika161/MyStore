@@ -154,7 +154,7 @@ MAILERS = {
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': os.environ.get('pks4ucxa'),
     'API_KEY': os.environ.get('358723849681492'),
-    'API_SECRET': os.environ.get('mYGe44LAP_9HPdH6LPSh5yx5p1E'),
+    'API_SECRET': os.environ.get('mmYGe44LAP_9HPdH6LPSh5yx5p1E'),
 }
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
